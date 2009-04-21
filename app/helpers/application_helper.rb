@@ -26,6 +26,6 @@ module ApplicationHelper
   end
 
   def currency_symbol
-    I18n.translate('number.currency.format')[:unit]
+    I18n.translate('number.currency.format.unit')
   end
 end
