@@ -24,4 +24,8 @@ module ApplicationHelper
       "(not deployed)"
     end
   end
+
+  def currency_symbol
+    I18n.translate('number.currency.format')[:unit]
+  end
 end

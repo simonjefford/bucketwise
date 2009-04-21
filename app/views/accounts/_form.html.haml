@@ -34,7 +34,7 @@
       %p
         %label
           What is the <strong>current balance</strong>:
-          == $#{text_field_tag :current_balance, account_starting_balance_amount, :class => "number", :size => 8}
+          == #{currency_symbol} #{text_field_tag :current_balance, account_starting_balance_amount, :class => "number", :size => 8}
 
       %p
         %label

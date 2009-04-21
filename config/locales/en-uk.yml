@@ -1,0 +1,6 @@
+"en-UK":
+  number:
+    currency:
+      format:
+        format: "%u%n"
+        unit: "£"

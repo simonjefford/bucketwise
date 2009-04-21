@@ -1,0 +1,3 @@
+- Figure out testing this stuff (set locale in setup etc.?)
+- Account names
+- Get default locale from somewhere (LANG, Accepts-Language header, subdomain?)

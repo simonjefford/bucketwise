@@ -11,7 +11,7 @@
     %span.expense_label <strong>How much</strong> was paid?
     %span.deposit_label <strong>How much</strong> was deposited?
     %span.transfer_label <strong>How much</strong> was transferred?
-    == $#{text_field_tag :amount, event_amount_value, :size => 8, :id => "expense_total", :class => "number", :onchange => "Events.updateUnassigned()"}
+    == #{currency_symbol}#{text_field_tag :amount, event_amount_value, :size => 8, :id => "expense_total", :class => "number", :onchange => "Events.updateUnassigned()"}
 
   %p
     %span.expense_label <strong>Who</strong> received the payment?
