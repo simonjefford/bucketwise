@@ -18,7 +18,7 @@
     %p
       %label
         <strong>What kind</strong> of account is this?
-        = form.select :role, [["Checking", "checking"], ["Credit card", "credit-card"], ["Other", "other"]]
+        = form.select :role, [[t(:checking), "checking"], [t(:credit_card), "credit-card"], ["Other", "other"]]
 
   - if form.object.nil? || form.object.new_record?
     %fieldset
