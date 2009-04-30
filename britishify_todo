@@ -1,0 +1,2 @@
+- Figure out testing this stuff (set locale in setup etc.?)
+- Get default locale from somewhere (LANG, Accepts-Language header, subdomain?)

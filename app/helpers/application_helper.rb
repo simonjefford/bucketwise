@@ -28,4 +28,8 @@ module ApplicationHelper
   def format_cents(amount, options={})
     number_to_currency(amount/100.0, options)
   end
+  
+  def currency_symbol
+    I18n.translate('number.currency.format.unit')
+  end
 end

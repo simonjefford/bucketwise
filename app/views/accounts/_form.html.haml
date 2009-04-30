@@ -18,7 +18,7 @@
     %p
       %label
         <strong>What kind</strong> of account is this?
-        = form.select :role, [["Checking", "checking"], ["Credit card", "credit-card"], ["Other", "other"]]
+        = form.select :role, [[t(:checking), "checking"], [t(:credit_card), "credit-card"], ["Other", "other"]]
 
   - if form.object.nil? || form.object.new_record?
     %fieldset
@@ -34,7 +34,7 @@
       %p
         %label
           What is the <strong>current balance</strong>:
-          == $#{text_field_tag :current_balance, account_starting_balance_amount, :class => "number", :size => 8}
+          == #{currency_symbol} #{text_field_tag :current_balance, account_starting_balance_amount, :class => "number", :size => 8}
 
       %p
         %label

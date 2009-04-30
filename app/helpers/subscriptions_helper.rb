@@ -27,6 +27,6 @@ module SubscriptionsHelper
     dollars = amount / 100
     cents   = amount % 100
 
-    "$%s.%02d" % [number_with_delimiter(dollars), cents]
+    "#{currency_symbol}%s.%02d" % [number_with_delimiter(dollars), cents]
   end
 end

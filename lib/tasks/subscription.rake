@@ -13,11 +13,17 @@ namespace :subscription do
     end
   end
 
-  desc "Create a new subscription (USER_ID env var for owner)"
+  desc "Create a new subscription (USER_ID env var for owner, optional LOCALE env var)"
   task :create => :environment do
     owner = User.find(ENV['USER_ID'])
-    subscription = Subscription.create(:owner => owner)
+    subscription = Subscription.create(:owner => owner, :locale => ENV['LOCALE'])
     owner.subscriptions << subscription
     puts "subscription ##{subscription.id} created for #{owner.user_name}"
+  end
+
+  desc "Set locale for subscription (SUBSCRIPTION_ID env var)"
+  task :locale => :environment do
+    subscription = Subscription.find(ENV['SUBSCRIPTION_ID'])
+    subscription.update_attributes!(:locale => ENV['LOCALE'])
   end
 end

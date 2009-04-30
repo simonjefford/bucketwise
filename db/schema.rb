@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090421221109) do
+ActiveRecord::Schema.define(:version => 20090422030926) do
 
   create_table "account_items", :force => true do |t|
     t.integer "event_id",     :null => false
@@ -90,7 +90,8 @@ ActiveRecord::Schema.define(:version => 20090421221109) do
   add_index "statements", ["account_id", "occurred_on"], :name => "index_statements_on_account_id_and_occurred_on"
 
   create_table "subscriptions", :force => true do |t|
-    t.integer "owner_id", :null => false
+    t.integer "owner_id",              :null => false
+    t.string  "locale",   :limit => 5
   end
 
   add_index "subscriptions", ["owner_id"], :name => "index_subscriptions_on_owner_id"

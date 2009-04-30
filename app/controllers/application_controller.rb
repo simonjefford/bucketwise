@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 
     def find_subscription
       @subscription = user.subscriptions.find(params[:subscription_id] || params[:id])
+      I18n.locale = @subscription.locale || :en
     end
 
     def authenticate

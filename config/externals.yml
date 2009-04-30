@@ -18,3 +18,7 @@ vendor/plugins/safe_mass_assignment:
   :type: git
   :repository: git://github.com/jamis/safe_mass_assignment.git
   :revision: 7d7e24e551254e0651f5cfb93d876beaed9ed7f7
+vendor/plugins/globalize2:
+  :type: git
+  :repository: git://github.com/joshmh/globalize2.git
+  :revision: a46ab1e885c37aff435823d992cc8c919b0e3c50

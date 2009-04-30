@@ -1,0 +1,9 @@
+"en-UK":
+  number:
+    currency:
+      format:
+        format: "%u%n"
+        unit: "£"
+
+  checking: Current
+  credit_card: Credit Card
