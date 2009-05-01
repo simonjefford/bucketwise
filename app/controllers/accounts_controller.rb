@@ -71,7 +71,7 @@ class AccountsController < ApplicationController
 
     def find_account
       @account = Account.find(params[:id])
-      @subscription = user.subscriptions.find(@account.subscription_id)
+      @subscription = find_subscription(@account.subscription_id)
     end
 
     def current_location

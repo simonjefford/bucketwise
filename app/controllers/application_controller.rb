@@ -19,8 +19,8 @@ class ApplicationController < ActionController::Base
     attr_reader :subscription, :user
     helper_method :subscription, :user
 
-    def find_subscription
-      @subscription = user.subscriptions.find(params[:subscription_id] || params[:id])
+    def find_subscription(subscription_id=params[:subscription_id])
+      @subscription = user.subscriptions.find(subscription_id || params[:id])
       I18n.locale = @subscription.locale || :en
       @subscription
     end
