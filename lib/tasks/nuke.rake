@@ -2,7 +2,7 @@ desc "Reset the database and setup with a fresh user and subscription"
 task :nuke => :environment do
   Rake::Task["db:reset"].invoke
   user = User.create(
-    :name => "user", 
+    :name => "user",
     :email => "someone@example.com",
     :user_name => "user",
     :password => "password")
