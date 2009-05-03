@@ -26,6 +26,9 @@ module ApplicationHelper
   end
 
   def format_cents(amount, options={})
+    if options.delete(:hide_currency)
+      options[:unit] = ''
+    end
     number_to_currency(amount/100.0, options)
   end
   

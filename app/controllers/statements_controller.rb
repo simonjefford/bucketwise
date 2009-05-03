@@ -43,12 +43,12 @@ class StatementsController < ApplicationController
 
     def find_account
       @account = Account.find(params[:account_id])
-      @subscription = user.subscriptions.find(@account.subscription_id)
+      @subscription = find_subscription(@account.subscription_id)
     end
 
     def find_statement
       @statement = Statement.find(params[:id])
       @account = @statement.account
-      @subscription = user.subscriptions.find(@account.subscription_id)
+      @subscription = find_subscription(@account.subscription_id)
     end
 end

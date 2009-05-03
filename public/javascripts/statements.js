@@ -11,10 +11,10 @@ var Statements = {
 
     if(checked) {
       $('account_item_' + id).addClassName('cleared');
-      subtotalField.innerHTML = "$" + Money.formatValue(subtotal + amount);
+      subtotalField.innerHTML = Money.formatValue(subtotal + amount);
     } else {
       $('account_item_' + id).removeClassName('cleared');
-      subtotalField.innerHTML = "$" + Money.formatValue(subtotal - amount);
+      subtotalField.innerHTML = Money.formatValue(subtotal - amount);
     }
 
     Statements.updateBalances();
@@ -56,7 +56,7 @@ var Statements = {
         else
           span.removeClassName("balanced");
 
-        span.innerHTML = "$" + remainingText;
+        span.innerHTML = remainingText;
       }
     })
 

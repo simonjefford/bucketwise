@@ -1,8 +1,10 @@
 .subtotal
   .settled
     Subtotal:
-    %span.subtotal_dollars= format_cents(subtotal)
+    = currency_symbol
+    %span.subtotal_dollars= format_cents(subtotal, :hide_currency => true)
   .remaining
     Remaining:
+    = currency_symbol
     %span.remaining_dollars{:class => statement.unsettled_balance.zero? ? "balanced" : nil}
-      = format_cents(statement.unsettled_balance)
+      = format_cents(statement.unsettled_balance, :hide_currency => true)
