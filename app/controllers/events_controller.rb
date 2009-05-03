@@ -77,7 +77,7 @@ class EventsController < ApplicationController
 
     def find_event
       @event = Event.find(params[:id])
-      @subscription = user.subscriptions.find(@event.subscription_id)
+      @subscription = find_subscription(@event.subscription_id)
     end
 
     def find_container
@@ -85,13 +85,13 @@ class EventsController < ApplicationController
         @container = find_subscription
       elsif params[:account_id]
         @container = @account = Account.find(params[:account_id])
-        @subscription = user.subscriptions.find(@account.subscription_id)
+        @subscription = find_subscription(@account.subscription_id)
       elsif params[:bucket_id]
         @container = @bucket = Bucket.find(params[:bucket_id])
-        @subscription = user.subscriptions.find(@bucket.account.subscription_id)
+        @subscription = find_subscription(@bucket.account.subscription_id)
       elsif params[:tag_id]
         @container = @tag = Tag.find(params[:tag_id])
-        @subscription = user.subscriptions.find(@tag.subscription_id)
+        @subscription = find_subscription(@tag.subscription_id)
       else
         raise ArgumentError, "no container specified for event listing"
       end
