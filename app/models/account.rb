@@ -29,7 +29,7 @@ class Account < ActiveRecord::Base
     end
 
     def with_defaults
-      buckets = to_a
+      buckets = to_a.dup
       buckets << Bucket.default unless buckets.any? { |bucket| bucket.role == "default" }
       buckets << Bucket.aside unless buckets.any? { |bucket| bucket.role == "aside" }
       return buckets
@@ -98,10 +98,12 @@ class Account < ActiveRecord::Base
 
     def set_starting_balance
       if starting_balance && !starting_balance[:amount].to_i.zero?
+        amount = starting_balance[:amount].to_i
+        role = amount > 0 ? "deposit" : "payment_source"
         subscription.events.create({:occurred_on => starting_balance[:occurred_on],
             :actor => "Starting balance",
             :line_items => [{:account_id => id, :bucket_id => buckets.default.id,
-              :amount => starting_balance[:amount], :role => "deposit"}]
+              :amount => amount, :role => role}]
           }, :user => author)
         reload # make sure the balance is set correctly
       end
