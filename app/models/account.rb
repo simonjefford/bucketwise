@@ -24,10 +24,6 @@ class Account < ActiveRecord::Base
       detect { |bucket| bucket.role == "default" }
     end
 
-    def recent(n=5)
-      find(:all, :limit => n, :order => "updated_at DESC").sort_by(&:name)
-    end
-
     def with_defaults
       buckets = to_a.dup
       buckets << Bucket.default unless buckets.any? { |bucket| bucket.role == "default" }
@@ -101,7 +97,7 @@ class Account < ActiveRecord::Base
         amount = starting_balance[:amount].to_i
         role = amount > 0 ? "deposit" : "payment_source"
         subscription.events.create({:occurred_on => starting_balance[:occurred_on],
-            :actor => "Starting balance",
+            :actor_name => "Starting balance",
             :line_items => [{:account_id => id, :bucket_id => buckets.default.id,
               :amount => amount, :role => role}]
           }, :user => author)
