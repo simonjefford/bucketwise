@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
   belongs_to :author, :class_name => "User", :foreign_key => "user_id"
 
   attr_accessor :starting_balance
-  attr_accessible :name, :role, :starting_balance
+  attr_accessible :name, :role, :starting_balance, :overdraft_limit
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :subscription_id, :case_sensitive => false

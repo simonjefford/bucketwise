@@ -41,6 +41,11 @@
           <strong>When</strong> was the statement issued:
           = calendar_date_select_tag "account[starting_balance][occurred_on]", account_starting_balance_occurred_on, :size => 9
 
+      %p
+        %label
+          What is the <strong>overdraft limit</strong>:
+          == #{currency_symbol} #{form.text_field :overdraft_limit, :class => "number", :size => 8}
+
   %p
     = submit_tag "Create this account"
     or
