@@ -10,6 +10,7 @@
   %body
     :javascript
       Events.source = #{current_location.to_json};
+      Money.currency_symbol = "#{currency_symbol}";
 
     #header
       %h1

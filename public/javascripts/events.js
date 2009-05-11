@@ -255,9 +255,9 @@ var Events = {
     var money = Events.computeUnassignedFor(section)
 
     if(money.unassigned > 0) {
-      $(section + ".unassigned").innerHTML = "<strong>$" + Money.dollars(money.unassigned) + "</strong> of $" + Money.dollars(money.total) + " remains unallocated.";
+      $(section + ".unassigned").innerHTML = "<strong>" + Money.currency_symbol + Money.dollars(money.unassigned) + "</strong> of " + Money.currency_symbol + Money.dollars(money.total) + " remains unallocated.";
     } else if(money.unassigned < 0) {
-      $(section + ".unassigned").innerHTML = "You've overallocated <strong>$" + Money.dollars(money.unassigned) + "</strong>.";
+      $(section + ".unassigned").innerHTML = "You've overallocated <strong>" + Money.currency_symbol + Money.dollars(money.unassigned) + "</strong>.";
     } else {
       $(section + ".unassigned").innerHTML = "";
     }

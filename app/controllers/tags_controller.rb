@@ -73,7 +73,7 @@ class TagsController < ApplicationController
 
     def find_tag
       @tag_ref = Tag.find(params[:id])
-      @subscription = user.subscriptions.find(@tag_ref.subscription_id)
+      @subscription = find_subscription(@tag_ref.subscription_id)
     end
 
     def current_location
