@@ -1,10 +1,9 @@
 require 'rake'
 require 'rake/rdoctask'
-require 'rake/contrib/sshpublisher'
 
 env = %(PKG_BUILD="#{ENV['PKG_BUILD']}") if ENV['PKG_BUILD']
 
-PROJECTS = %w(activesupport actionpack actionmailer activeresource activerecord railties)
+PROJECTS = %w(activesupport railties actionpack actionmailer activeresource activerecord)
 
 Dir["#{File.dirname(__FILE__)}/*/lib/*/version.rb"].each do |version_path|
   require version_path
@@ -74,6 +73,7 @@ end
 
 desc "Publish API docs for Rails as a whole and for each component"
 task :pdoc => :rdoc do
+  require 'rake/contrib/sshpublisher'
   Rake::SshDirPublisher.new("wrath.rubyonrails.org", "public_html/api", "doc/rdoc").upload
   PROJECTS.each do |project|
     system %(cd #{project} && #{env} #{$0} pdoc)
