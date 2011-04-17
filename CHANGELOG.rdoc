@@ -1,4 +1,15 @@
-=== (new)
+=== (unreleased)
+
+* Fix rounding error on ending balance for new statements [Cody Maggard]
+
+* Track limit on credit card accounts [Kieran Pilkington]
+
+* Change text on "save" button in event form to reflect edit vs. new [Kieran Pilkington]
+
+* Make "BucketWise" in header a link to the root path [Kieran Pilkington]
+
+
+=== 1.1.0 / 14 May 2009
 
 * Recall previously entered transactions for easy entry of similar events [Jamis Buck]
 

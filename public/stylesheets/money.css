@@ -48,6 +48,10 @@ div#header h1 span.actions a {
   color: #696;
 }
 
+div#header h1 span.title a {
+  color: #696;
+}
+
 div#header h1 span.actions a:hover {
   color: #00f;
 }
@@ -273,7 +277,23 @@ span.check {
 }
 
 .negative {
-  color: red;
+  color: red !important;
+}
+
+.critical {
+  color: red !important;
+}
+
+.high {
+  color: brown !important;
+}
+
+.medium {
+  color: sandybrown !important;
+}
+
+.low {
+  color: green !important;
 }
 
 td.date, th.date {
