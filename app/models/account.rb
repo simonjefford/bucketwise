@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
   belongs_to :author, :class_name => "User", :foreign_key => "user_id"
 
   attr_accessor :starting_balance
-  attr_accessible :name, :role, :limit, :starting_balance
+  attr_accessible :name, :role, :limit, :starting_balance, :overdraft_limit
 
   validates_presence_of :name
   validates_presence_of :limit, :if => :credit_card?
@@ -62,7 +62,7 @@ class Account < ActiveRecord::Base
   end
 
   def available_balance
-    @available_balance ||= balance - unavailable_balance
+    @available_balance ||= (balance + overdraft_limit) - unavailable_balance
   end
 
   def unavailable_balance

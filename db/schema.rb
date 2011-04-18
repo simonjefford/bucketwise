@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090516072907) do
+ActiveRecord::Schema.define(:version => 20110418193903) do
 
   create_table "account_items", :force => true do |t|
     t.integer "event_id",     :null => false
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20090516072907) do
     t.datetime "updated_at"
     t.integer  "balance",         :default => 0, :null => false
     t.integer  "limit"
+    t.integer  "overdraft_limit", :default => 0, :null => false
   end
 
   add_index "accounts", ["subscription_id", "name"], :name => "index_accounts_on_subscription_id_and_name", :unique => true

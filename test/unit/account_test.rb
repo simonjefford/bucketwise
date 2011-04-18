@@ -27,6 +27,17 @@ class AccountTest < ActiveSupport::TestCase
     end
   end
 
+  test "create with overdraft limit should initalize balance and overdraft limit" do
+    assert_difference "subscriptions(:john).events.count" do
+      a = new_account :starting_balance => {
+        :occurred_on => 1.week.ago.utc, :amount => "12345"}, :overdraft_limit => 1000
+      assert_equal [a.buckets.default], a.line_items.map(&:bucket)
+      assert_equal 12345, a.balance
+      assert_equal 1000, a.overdraft_limit
+      assert_equal 13345, a.available_balance
+    end
+  end
+
   test "create with negative starting balance should initialize balance" do
     assert_difference "subscriptions(:john).events.count" do
       a = new_account :starting_balance => {
