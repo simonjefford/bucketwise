@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
     def render_404
       respond_to do |format|
-        format.html { render :file => "#{RAILS_ROOT}/public/404.html", :status => :not_found }
+        format.html { render :file => "#{Rails.root}/public/404.html", :status => :not_found }
         format.xml  { head :not_found }
       end
     end

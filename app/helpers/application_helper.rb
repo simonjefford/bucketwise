@@ -9,16 +9,16 @@ module ApplicationHelper
   end
 
   def application_revision
-    @application_revision ||= if File.exists?("#{RAILS_ROOT}/REVISION")
-      File.read("#{RAILS_ROOT}/REVISION").strip
+    @application_revision ||= if File.exists?("#{Rails.root}/REVISION")
+      File.read("#{Rails.root}/REVISION").strip
     else
       "HEAD"
     end
   end
 
   def application_last_deployed
-    if File.exists?("#{RAILS_ROOT}/REVISION")
-      @deployed_at ||= File.stat("#{RAILS_ROOT}/REVISION").ctime
+    if File.exists?("#{Rails.root}/REVISION")
+      @deployed_at ||= File.stat("#{Rails.root}/REVISION").ctime
       time_ago_in_words(@deployed_at) + " ago"
     else
       "(not deployed)"
