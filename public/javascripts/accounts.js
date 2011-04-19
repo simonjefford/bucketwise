@@ -46,6 +46,9 @@ var Accounts = {
     var limit = Money.parse('account_limit', true);
     $('account_limit').value = limit;
 
+    var overdraft_limit = Money.parse('overdraft_limit', true);
+    $('account_overdraft_limit').value = overdraft_limit;
+
     return true;
   },
 
