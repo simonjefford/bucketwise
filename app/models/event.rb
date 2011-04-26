@@ -186,7 +186,7 @@ class Event < ActiveRecord::Base
           item = line_items.create(item.merge(:occurred_on => occurred_on))
           summaries[account] += item.amount
 
-          if tags_missing
+          if tags_missing && item.bucket.name != "General"
             @tagged_items_to_realize ||= []
             @tagged_items_to_realize << { :tag_id => "n:#{item.bucket.name}", :amount => item.amount }
           end

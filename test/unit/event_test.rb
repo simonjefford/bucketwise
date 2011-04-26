@@ -394,6 +394,12 @@ class EventTest < ActiveSupport::TestCase
     assert_equal [-2575, -1525], event.tagged_items.map(&:amount)
   end
 
+  test "create in the General bucket and no tagged_items should not create 'General' tagged_items" do
+    @event_base[:line_items][0][:bucket_id] = buckets(:john_checking_general).id
+    event = subscriptions(:john).events.create(@event_base, :user => users(:john))
+    assert_equal 1, event.tagged_items.length
+  end
+
   test "update without line items should leave exising line items alone" do
     events(:john_lunch).update_attributes :actor_name => "Somebody Else"
     assert_equal "Somebody Else", events(:john_lunch, :reload).actor_name
