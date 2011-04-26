@@ -170,6 +170,7 @@ class Event < ActiveRecord::Base
         account_items.destroy_all
 
         summaries = Hash.new(0)
+        tags_missing = @tagged_items_to_realize.blank?
         @line_items_to_realize.each do |item|
           account = subscription.accounts.find(item[:account_id])
 
@@ -184,6 +185,11 @@ class Event < ActiveRecord::Base
 
           item = line_items.create(item.merge(:occurred_on => occurred_on))
           summaries[account] += item.amount
+
+          if tags_missing
+            @tagged_items_to_realize ||= []
+            @tagged_items_to_realize << { :tag_id => "n:#{item.bucket.name}", :amount => item.amount }
+          end
         end
 
         summaries.each do |account, amount|
