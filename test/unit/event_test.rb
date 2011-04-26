@@ -390,7 +390,7 @@ class EventTest < ActiveSupport::TestCase
   test "create with no tagged_items should create tagged_items named after the buckets" do
     event = subscriptions(:john).events.create(@event_base, :user => users(:john))
     assert_equal 2, event.tagged_items.length
-    assert_equal ["Groceries", "Household"], event.tagged_items.map { |e| e.tag.name }
+    assert_equal ["groceries", "household"], event.tagged_items.map { |e| e.tag.name }
     assert_equal [-2575, -1525], event.tagged_items.map(&:amount)
   end
 

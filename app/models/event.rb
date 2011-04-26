@@ -188,7 +188,7 @@ class Event < ActiveRecord::Base
 
           if tags_missing && item.bucket.name != "General"
             @tagged_items_to_realize ||= []
-            @tagged_items_to_realize << { :tag_id => "n:#{item.bucket.name}", :amount => item.amount }
+            @tagged_items_to_realize << { :tag_id => "n:#{item.bucket.name.downcase}", :amount => item.amount }
           end
         end
 
