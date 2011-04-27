@@ -387,17 +387,28 @@ class EventTest < ActiveSupport::TestCase
     assert_equal [milk, fruit], event.tagged_items.map(&:tag)
   end
 
-  test "create with no tagged_items should create tagged_items named after the buckets" do
-    event = subscriptions(:john).events.create(@event_base, :user => users(:john))
+  test "creating expense events with no tagged_items should create tagged_items named after the buckets" do
+    event = subscriptions(:john).events.create(@event_base, :user => users(:john), :role => :expense)
     assert_equal 2, event.tagged_items.length
     assert_equal ["groceries", "household"], event.tagged_items.map { |e| e.tag.name }
     assert_equal [-2575, -1525], event.tagged_items.map(&:amount)
   end
 
-  test "create in the General bucket and no tagged_items should not create 'General' tagged_items" do
+  test "creating expense events in the General bucket with no tagged_items should not create 'General' tagged_items" do
+    @event_base[:line_items].pop
     @event_base[:line_items][0][:bucket_id] = buckets(:john_checking_general).id
     event = subscriptions(:john).events.create(@event_base, :user => users(:john))
-    assert_equal 1, event.tagged_items.length
+    assert_equal 0, event.tagged_items.length
+  end
+
+  test "reallocation events should not be automatically tagged" do
+    event = subscriptions(:john).events.create(@event_base, :user => users(:john), :role => :reallocation)
+    assert_equal 0, event.tagged_items.length
+  end
+
+  test "transfer events should not be automatically tagged" do
+    event = subscriptions(:john).events.create(@event_base, :user => users(:john), :role => :transfer)
+    assert_equal 0, event.tagged_items.length
   end
 
   test "update without line items should leave exising line items alone" do
