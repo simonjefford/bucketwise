@@ -15,3 +15,21 @@ john_bare_mastercard:
   tag: john_fuel
   occurred_on: <%= 55.days.ago.to_date.to_s(:db) %>
   amount: 1500
+
+john_coffee:
+  event: john_coffee
+  tag: john_coffee
+  occurred_on: <%= 51.days.ago.to_date.to_s(:db) %>
+  amount: 200
+
+john_coffee2:
+  event: john_coffee2
+  tag: john_coffee
+  occurred_on: <%= 55.days.ago.to_date.to_s(:db) %>
+  amount: 200
+
+john_coffee3:
+  event: john_coffee3
+  tag: john_coffee
+  occurred_on: <%= 100.days.ago.to_date.to_s(:db) %>
+  amount: 200

@@ -23,6 +23,22 @@ var Tags = {
     }
   },
 
+  applyFilter: function(url) {
+    start_date = $('start_time').getValue();
+    end_date = $('end_time').getValue();
+    window.location.href = url + "?start=" + start_date + "&end=" + end_date;
+  },
+
+  clearFilter: function(url) {
+    $('start_time').setValue('');
+    $('end_time').setValue('');
+    Tags.applyFilter(url);
+  },
+
+  toggleFilter: function() {
+    $('filter').toggle();
+  },
+
   confirmDelete: function() {
     if($('mergeTagOption').down('input').checked) {
       if($('receiver_id').selectedIndex <= 0) {

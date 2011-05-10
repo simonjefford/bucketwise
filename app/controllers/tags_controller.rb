@@ -12,7 +12,14 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html do
         @page = (params[:page] || 0).to_i
-        @more_pages, @items = tag_ref.tagged_items.page(@page)
+        unless params[:start].blank? || params[:end].blank?
+          @start = params[:start]
+          @end = params[:end]
+          @more_pages = false
+          @items = tag_ref.tagged_items.for_date_range(@start, @end)
+        else
+          @more_pages, @items = tag_ref.tagged_items.page(@page)
+        end
       end
       format.xml { render :xml => tag_ref }
     end

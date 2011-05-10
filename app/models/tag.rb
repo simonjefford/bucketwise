@@ -1,7 +1,13 @@
 class Tag < ActiveRecord::Base
   belongs_to :subscription
 
-  has_many :tagged_items, :dependent => :delete_all
+  has_many :tagged_items, :dependent => :delete_all do
+    def for_date_range(start, finish)
+      items = find(:all, :conditions => ["occurred_on >= ? AND occurred_on <= ?", start, finish])
+      proxy_owner.balance = items.inject(0) { |sum, item| sum + item.amount  }
+      items
+    end
+  end
 
   attr_accessible :name
 
