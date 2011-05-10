@@ -23,6 +23,12 @@ var Tags = {
     }
   },
 
+  filterTag: function(url) {
+    start_date = $('start_time').getValue();
+    end_date = $('end_time').getValue();
+    window.location.href = url + "?start=" + start_date + "&end=" + end_date;
+  },
+
   confirmDelete: function() {
     if($('mergeTagOption').down('input').checked) {
       if($('receiver_id').selectedIndex <= 0) {

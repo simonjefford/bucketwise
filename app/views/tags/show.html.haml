@@ -6,6 +6,12 @@
 
   %h2#name= render :partial => "tags/name"
 
+  %p
+    %span Start
+    = calendar_date_select_tag "start_time"
+    %span End
+    = calendar_date_select_tag "end_time"
+
   %table.entries
     = render :partial => "events/balance", :locals => { :container => tag_ref }
     = render(@items)
