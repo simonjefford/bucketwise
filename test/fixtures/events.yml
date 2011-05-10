@@ -62,6 +62,36 @@ john_lunch_again:
   created_at: <%= 55.days.ago.utc.to_s(:db) %>
   updated_at: <%= 55.days.ago.utc.to_s(:db) %>
 
+john_coffee:
+  subscription: john
+  user: john
+  occurred_on: <%= 51.days.ago.to_date.to_s(:db) %>
+  actor_name: Sandwich Central
+  actor: john_sandwich_central
+  check_number: ~
+  created_at: <%= 51.days.ago.utc.to_s(:db) %>
+  updated_at: <%= 51.days.ago.utc.to_s(:db) %>
+
+john_coffee2:
+  subscription: john
+  user: john
+  occurred_on: <%= 55.days.ago.to_date.to_s(:db) %>
+  actor_name: Sandwich Central
+  actor: john_sandwich_central
+  check_number: ~
+  created_at: <%= 55.days.ago.utc.to_s(:db) %>
+  updated_at: <%= 55.days.ago.utc.to_s(:db) %>
+
+john_coffee3:
+  subscription: john
+  user: john
+  occurred_on: <%= 100.days.ago.to_date.to_s(:db) %>
+  actor_name: Sandwich Central
+  actor: john_sandwich_central
+  check_number: ~
+  created_at: <%= 100.days.ago.utc.to_s(:db) %>
+  updated_at: <%= 100.days.ago.utc.to_s(:db) %>
+
 john_bare_mastercard:
   subscription: john
   user: john

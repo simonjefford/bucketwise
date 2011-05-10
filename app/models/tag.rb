@@ -1,7 +1,11 @@
 class Tag < ActiveRecord::Base
   belongs_to :subscription
 
-  has_many :tagged_items, :dependent => :delete_all
+  has_many :tagged_items, :dependent => :delete_all do
+    def for_date_range(start, finish)
+      find(:all, :conditions => ["occurred_on >= ? AND occurred_on <= ?", start, finish])
+    end
+  end
 
   attr_accessible :name
 

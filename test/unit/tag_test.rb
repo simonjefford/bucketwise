@@ -48,4 +48,12 @@ class TagTest < ActiveSupport::TestCase
       assert tag.errors.on(:name)
     end
   end
+
+  test "tagged_items.for_date_range should return expected tag items" do
+    tag = tags(:john_coffee)
+    start_date = 60.days.ago.to_s
+    end_date = 50.days.ago.to_s
+    items = tag.tagged_items.for_date_range(start_date, end_date)
+    assert_equal 2, items.count
+  end
 end
