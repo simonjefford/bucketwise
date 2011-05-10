@@ -6,11 +6,12 @@
 
   %h2#name= render :partial => "tags/name"
 
-  %p
+  %p#filter{ :style => "display:none" }
     %span Start
     = calendar_date_select_tag "start_time"
     %span End
     = calendar_date_select_tag "end_time"
+    = link_to_function "Apply", "Tags.applyFilter(#{tag_path(tag_ref).to_json})"
 
   %table.entries
     = render :partial => "events/balance", :locals => { :container => tag_ref }

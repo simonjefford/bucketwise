@@ -23,10 +23,14 @@ var Tags = {
     }
   },
 
-  filterTag: function(url) {
+  applyFilter: function(url) {
     start_date = $('start_time').getValue();
     end_date = $('end_time').getValue();
     window.location.href = url + "?start=" + start_date + "&end=" + end_date;
+  },
+
+  toggleFilter: function() {
+    $('filter').toggle();
   },
 
   confirmDelete: function() {
