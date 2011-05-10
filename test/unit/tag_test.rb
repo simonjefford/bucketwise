@@ -56,4 +56,12 @@ class TagTest < ActiveSupport::TestCase
     items = tag.tagged_items.for_date_range(start_date, end_date)
     assert_equal 2, items.count
   end
+
+  test "filtering by date range should adjust the 'balance' of the tag" do
+    tag = tags(:john_coffee)
+    start_date = 60.days.ago.to_s
+    end_date = 50.days.ago.to_s
+    items = tag.tagged_items.for_date_range(start_date, end_date)
+    assert_equal 400, tag.balance
+  end
 end
