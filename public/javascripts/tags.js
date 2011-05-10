@@ -29,6 +29,12 @@ var Tags = {
     window.location.href = url + "?start=" + start_date + "&end=" + end_date;
   },
 
+  clearFilter: function(url) {
+    $('start_time').setValue('');
+    $('end_time').setValue('');
+    Tags.applyFilter(url);
+  },
+
   toggleFilter: function() {
     $('filter').toggle();
   },

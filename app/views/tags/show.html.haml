@@ -12,6 +12,8 @@
     %span End
     = calendar_date_select_tag "end_time", @end
     = link_to_function "Apply", "Tags.applyFilter(#{tag_path(tag_ref).to_json})"
+    |
+    = link_to_function "Clear", "Tags.clearFilter(#{tag_path(tag_ref).to_json})"
 
   %table.entries
     = render :partial => "events/balance", :locals => { :container => tag_ref }

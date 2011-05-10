@@ -12,7 +12,7 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html do
         @page = (params[:page] || 0).to_i
-        if params[:start]
+        unless params[:start].blank? || params[:end].blank?
           @start = params[:start]
           @end = params[:end]
           @more_pages = false
