@@ -8,9 +8,9 @@
 
   %p#filter{ :style => "display:none" }
     %span Start
-    = calendar_date_select_tag "start_time"
+    = calendar_date_select_tag "start_time", @start
     %span End
-    = calendar_date_select_tag "end_time"
+    = calendar_date_select_tag "end_time", @end
     = link_to_function "Apply", "Tags.applyFilter(#{tag_path(tag_ref).to_json})"
 
   %table.entries

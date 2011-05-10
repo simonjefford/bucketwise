@@ -13,8 +13,10 @@ class TagsController < ApplicationController
       format.html do
         @page = (params[:page] || 0).to_i
         if params[:start]
+          @start = params[:start]
+          @end = params[:end]
           @more_pages = false
-          @items = tag_ref.tagged_items.for_date_range(params[:start], params[:end])
+          @items = tag_ref.tagged_items.for_date_range(@start, @end)
         else
           @more_pages, @items = tag_ref.tagged_items.page(@page)
         end
