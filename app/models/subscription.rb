@@ -22,6 +22,14 @@ class Subscription < ActiveRecord::Base
         parameters << Actor.normalize_name(options[:actor])
       end
 
+      if options[:skip_reallocations]
+        unless options[:actor]
+          joins << "LEFT JOIN actors on actors.id = events.actor_id"
+          conditions << "actors.sort_name <> ?"
+          parameters << Actor.normalize_name("Bucket reallocation")
+        end
+      end
+
       records = find(:all, :joins => joins,
         :conditions => conditions.any? ? [conditions.join(" AND "), *parameters] : nil,
         :include => :account_items,
