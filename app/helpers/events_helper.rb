@@ -349,4 +349,12 @@ module EventsHelper
     else "events/line_item"
     end
   end
+
+  def event_type(event)
+    if event.actor_name == "Bucket reallocation"
+      "realloc"
+    else
+      "account"
+    end
+  end
 end

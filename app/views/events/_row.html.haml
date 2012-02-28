@@ -1,4 +1,4 @@
-%tr{:id => dom_id(event), :class => cycle('odd', 'even'), :onmouseover => "Events.onMouseOver(#{event.id})", :onmouseout => "Events.onMouseOut(#{event.id})"}
+%tr{:id => dom_id(event), :rel => event_type(event), :class => cycle('odd', 'even'), :onmouseover => "Events.onMouseOver(#{event.id})", :onmouseout => "Events.onMouseOut(#{event.id})"}
 
   %td.date= event.occurred_on.strftime("%Y-%m-%d")
 
