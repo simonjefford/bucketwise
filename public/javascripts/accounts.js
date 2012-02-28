@@ -1,4 +1,11 @@
 var Accounts = {
+  toggleReallocations: function() {
+    var reallocRows = $$("tr[rel='realloc']");
+    reallocRows.each(function(row, index) {
+      row.toggle();
+    });
+  },
+
   revealForm: function() {
     if($('blankslate')) {
       $('blankslate').hide();
