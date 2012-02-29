@@ -23,7 +23,11 @@ class Statement < ActiveRecord::Base
       cents << "0" while cents.length < 2
       cents = cents.to_i
 
-      amount = dollars * 100 + cents
+      if dollars > 0
+        amount = dollars * 100 + cents
+      else
+        amount = dollars * 100 - cents
+      end
     end
 
     super(amount)
