@@ -1,5 +1,5 @@
 class Subscription < ActiveRecord::Base
-  DEFAULT_PAGE_SIZE = 5
+  DEFAULT_PAGE_SIZE = 10
 
   belongs_to :owner, :class_name => "User"
 
