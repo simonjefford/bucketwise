@@ -10,7 +10,7 @@ else
     :collection => subscription.events.recent.last
   page['accounts_summary'].replace_html :partial => "accounts/account",
     :collection => subscription.accounts
-  page.events.reset
+  #page.events.reset
   page[:success_notice].show
   page << emit_account_data_assignments
   page.visual_effect :highlight, dom_id(event)
