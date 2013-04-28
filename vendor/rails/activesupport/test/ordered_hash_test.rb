@@ -147,6 +147,32 @@ class OrderedHashTest < Test::Unit::TestCase
     assert_equal @ordered_hash.keys, merged.keys
   end
 
+  def test_merge_with_block
+    hash = ActiveSupport::OrderedHash.new
+    hash[:a] = 0
+    hash[:b] = 0
+    merged = hash.merge(:b => 2, :c => 7) do |key, old_value, new_value|
+      new_value + 1
+    end
+
+    assert_equal 0, merged[:a]
+    assert_equal 3, merged[:b]
+    assert_equal 7, merged[:c]
+  end
+
+  def test_merge_bang_with_block
+    hash = ActiveSupport::OrderedHash.new
+    hash[:a] = 0
+    hash[:b] = 0
+    hash.merge!(:a => 1, :c => 7) do |key, old_value, new_value|
+      new_value + 3
+    end
+
+    assert_equal 4, hash[:a]
+    assert_equal 0, hash[:b]
+    assert_equal 7, hash[:c]
+  end
+
   def test_shift
     pair = @ordered_hash.shift
     assert_equal [@keys.first, @values.first], pair
@@ -197,5 +223,41 @@ class OrderedHashTest < Test::Unit::TestCase
     original = @ordered_hash.replace(@other_ordered_hash)
     assert_same original, @ordered_hash
     assert_equal @other_ordered_hash.keys, @ordered_hash.keys
+  end
+
+  def test_each_after_yaml_serialization
+    values = []
+    @deserialized_ordered_hash = YAML::load(YAML::dump(@ordered_hash))
+
+    @deserialized_ordered_hash.each {|key, value| values << value}
+    assert_equal @values, values
+  end
+
+  def test_order_after_yaml_serialization
+    @deserialized_ordered_hash = YAML::load(YAML::dump(@ordered_hash))
+
+    assert_equal @keys,   @deserialized_ordered_hash.keys
+    assert_equal @values, @deserialized_ordered_hash.values
+  end
+
+  def test_order_after_yaml_serialization_with_nested_arrays
+    @ordered_hash[:array] = %w(a b c)
+
+    @deserialized_ordered_hash = YAML::load(YAML::dump(@ordered_hash))
+
+    assert_equal @ordered_hash.keys,   @deserialized_ordered_hash.keys
+    assert_equal @ordered_hash.values, @deserialized_ordered_hash.values
+  end
+
+  def test_update_sets_keys
+    @updated_ordered_hash = ActiveSupport::OrderedHash.new
+    @updated_ordered_hash.update(:name => "Bob")
+    assert_equal [:name],  @updated_ordered_hash.keys
+  end
+
+  def test_invert
+    expected = ActiveSupport::OrderedHash[@values.zip(@keys)]
+    assert_equal expected, @ordered_hash.invert
+    assert_equal @values.zip(@keys), @ordered_hash.invert.to_a
   end
 end

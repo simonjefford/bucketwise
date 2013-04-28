@@ -300,6 +300,13 @@ class ArrayToXmlTests < Test::Unit::TestCase
 
     assert xml.include?(%(<count>2</count>)), xml
   end
+  
+  class Namespaced < Hash
+  end
+  def test_to_xml_with_namespaced_classes
+    xml = [Namespaced.new(:name => "David")].to_xml
+    assert_match(/<array\-to\-xml\-tests\-namespaceds/, xml)
+  end
 
   def test_to_xml_with_empty
     xml = [].to_xml
@@ -316,15 +323,39 @@ class ArrayExtractOptionsTests < Test::Unit::TestCase
   end
 end
 
-class ArrayExtRandomTests < Test::Unit::TestCase
-  def test_random_element_from_array
-    assert_nil [].rand
+class ArrayExtRandomTests < ActiveSupport::TestCase
+  def test_sample_from_array
+    assert_nil [].sample
+    assert_equal [], [].sample(5)
+    assert_equal 42, [42].sample
+    assert_equal [42], [42].sample(5)
 
-    Kernel.expects(:rand).with(1).returns(0)
-    assert_equal 'x', ['x'].rand
+    a = [:foo, :bar, 42]
+    s = a.sample(2)
+    assert_equal 2, s.size
+    assert_equal 1, (a-s).size
+    assert_equal [], a-(0..20).sum{a.sample(2)}
+  
+    o = Object.new
+    def o.to_int; 1; end
+    assert_equal [0], [0].sample(o)
+  
+    o = Object.new
+    assert_raises(TypeError) { [0].sample(o) }
+    
+    o = Object.new
+    def o.to_int; ''; end
+    assert_raises(TypeError) { [0].sample(o) }
 
-    Kernel.expects(:rand).with(3).returns(1)
-    assert_equal 2, [1, 2, 3].rand
+    assert_raises(ArgumentError) { [0].sample(-7) }
+  end
+
+  def test_deprecated_rand_on_array
+    assert_deprecated { [].rand }
+  end
+
+  def test_deprecated_random_element_on_array
+    assert_deprecated { [].random_element }
   end
 end
 

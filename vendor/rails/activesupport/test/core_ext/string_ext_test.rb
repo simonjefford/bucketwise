@@ -2,9 +2,16 @@
 require 'date'
 require 'abstract_unit'
 require 'inflector_test_cases'
+require 'active_support/core_ext/string/output_safety'
 
 class StringInflectionsTest < Test::Unit::TestCase
   include InflectorTestCases
+
+  def test_erb_escape
+    string = [192, 60].pack('CC')
+    expected = 192.chr + "&lt;"
+    assert_equal expected, ERB::Util.html_escape(string)
+  end
 
   def test_pluralize
     SingularToPlural.each do |singular, plural|
@@ -177,6 +184,7 @@ class StringInflectionsTest < Test::Unit::TestCase
     s = "hello"
     assert s.starts_with?('h')
     assert s.starts_with?('hel')
+    assert !s.starts_with?(:hel)
     assert !s.starts_with?('el')
 
     assert s.start_with?('h')
@@ -185,6 +193,7 @@ class StringInflectionsTest < Test::Unit::TestCase
 
     assert s.ends_with?('o')
     assert s.ends_with?('lo')
+    assert !s.ends_with?(:lo)
     assert !s.ends_with?('el')
 
     assert s.end_with?('o')
@@ -291,79 +300,110 @@ class OutputSafetyTest < ActiveSupport::TestCase
     assert !@string.html_safe?
   end
 
+  test "Marking a string html_safe! doesn't work unless rails_xss is installed" do
+    assert_raise(NoMethodError) { @string.html_safe! }
+  end
+
   test "A string can be marked safe" do
-    @string.html_safe!
-    assert @string.html_safe?
+    string = @string.html_safe
+    assert string.html_safe?
   end
 
   test "Marking a string safe returns the string" do
-    assert_equal @string, @string.html_safe!
+    assert_equal @string, @string.html_safe
+  end
+
+  test "A fixnum is safe by default" do
+    assert 5.html_safe?
+  end
+
+  test "An object is unsafe by default" do
+    assert !Object.new.html_safe?
   end
 
   test "Adding a safe string to another safe string returns a safe string" do
-    @other_string = "other".html_safe!
-    @string.html_safe!
-    @combination = @other_string + @string
+    @other_string = "other".html_safe
+    string = @string.html_safe
+    @combination = @other_string + string
 
     assert_equal "otherhello", @combination
     assert @combination.html_safe?
   end
 
-  test "Adding an unsafe string to a safe string returns an unsafe string" do
-    @other_string = "other".html_safe!
-    @combination = @other_string + @string
-    @other_combination = @string + @other_string
+  test "Adding an unsafe string to a safe string doesn't escape it without rails_xss but returns a safe string" do
+    @other_string = "other".html_safe
+    @combination = @other_string + "<foo>"
+    @other_combination = @string + "<foo>"
 
-    assert_equal "otherhello", @combination
-    assert_equal "helloother", @other_combination
+    assert_equal "other<foo>", @combination
+    assert_equal "hello<foo>", @other_combination
 
-    assert !@combination.html_safe?
+    assert @combination.html_safe?
     assert !@other_combination.html_safe?
   end
 
   test "Concatting safe onto unsafe yields unsafe" do
     @other_string = "other"
-    @string.html_safe!
+    string = @string.html_safe
 
-    @other_string.concat(@string)
+    @other_string.concat(string)
     assert !@other_string.html_safe?
   end
 
-  test "Concatting unsafe onto safe yields unsafe" do
-    @other_string = "other".html_safe!
-
-    @other_string.concat(@string)
-    assert !@other_string.html_safe?
+  test "Concatting unsafe onto safe yields safe by not escaped without rails_xss" do
+    @other_string = "other".html_safe
+    string = @other_string.concat("<foo>")
+    assert_equal "other<foo>", string
+    assert string.html_safe?
   end
 
   test "Concatting safe onto safe yields safe" do
-    @other_string = "other".html_safe!
-    @string.html_safe!
+    @other_string = "other".html_safe
+    string = @string.html_safe
 
-    @other_string.concat(@string)
+    @other_string.concat(string)
     assert @other_string.html_safe?
   end
 
   test "Concatting safe onto unsafe with << yields unsafe" do
     @other_string = "other"
-    @string.html_safe!
+    string = @string.html_safe
 
-    @other_string << @string
+    @other_string << string
     assert !@other_string.html_safe?
   end
 
-  test "Concatting unsafe onto safe with << yields unsafe" do
-    @other_string = "other".html_safe!
-
-    @other_string << @string
-    assert !@other_string.html_safe?
+  test "Concatting unsafe onto safe with << yields safe but not escaped without rails_xss" do
+    @other_string = "other".html_safe
+    string = @other_string << "<foo>"
+    assert_equal "other<foo>", string
+    assert string.html_safe?
   end
 
   test "Concatting safe onto safe with << yields safe" do
-    @other_string = "other".html_safe!
-    @string.html_safe!
+    @other_string = "other".html_safe
+    @string.html_safe
 
     @other_string << @string
     assert @other_string.html_safe?
+  end
+
+  test "Concatting a fixnum to safe always yields safe" do
+    string = @string.html_safe
+    string = string.concat(13)
+    assert_equal "hello".concat(13), string
+    assert string.html_safe?
+  end
+
+  test 'emits normal string yaml' do
+    assert_equal 'foo'.to_yaml, 'foo'.html_safe.to_yaml(:foo => 1)
+  end
+
+  test 'yaml output using +' do
+    assert_equal "--- foobar\n", ('foo' + 'bar').to_yaml
+  end
+
+  test 'yaml output using <<' do
+    assert_equal "--- foobar\n", ('foo' << 'bar').to_yaml
   end
 end
